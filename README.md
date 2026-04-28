@@ -93,6 +93,45 @@ The frontend will be available at `http://localhost:5173`. Open this URL in your
 5. The audio is encoded to base64 and returned alongside the viseme data.
 6. The React `Avatar.jsx` component takes this data, plays the base64 audio, and uses a `requestAnimationFrame` loop to match the current audio playback time with the simulated visemes—jumping the video to specific frames to make it look like the avatar is speaking!
 
+## API Usage
+
+You can use the FastAPI backend as a standalone API to generate synchronized audio and visemes for any frontend or application. 
+
+**Endpoint**: `http://localhost:8000/synthesize`
+**Method**: `POST`
+
+### Request Format
+Send a JSON payload containing the `text` you want spoken and the `voice` you want to use.
+
+**cURL Example:**
+```bash
+curl -X POST http://localhost:8000/synthesize \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Hello, welcome to this AI interview!", "voice": "en-US-AriaNeural"}'
+```
+
+**Python Example:**
+```python
+import requests
+
+url = "http://localhost:8000/synthesize"
+payload = {
+    "text": "Hello, welcome to this AI interview!",
+    "voice": "en-US-AriaNeural"
+}
+
+response = requests.post(url, json=payload)
+data = response.json()
+
+print("Visemes:", data["visemes"])
+# Base64 audio string is available in data["audio"]
+```
+
+### Response Format
+The API responds with JSON containing:
+- `audio`: A Base64 encoded string representing the `.mp3` audio file.
+- `visemes`: An array of timing events (`offset` in milliseconds and `viseme_id`) mapping when the mouth should open and close.
+
 ## Future Enhancements
 
 - Integrate a large language model (LLM) so the avatar can have intelligent, autonomous conversations.
