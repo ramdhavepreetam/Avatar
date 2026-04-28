@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function Avatar({ syncData }) {
+export default function Avatar({ syncData, avatarType = 'male' }) {
   const audioRef = useRef(null);
   const [isTalking, setIsTalking] = useState(false);
 
@@ -30,8 +30,8 @@ export default function Avatar({ syncData }) {
         
         {/* Idle Image */}
         <img 
-          src="/avatar.jpg" 
-          alt="Avatar Idle" 
+          src={`/${avatarType}_avatar.jpg`} 
+          alt={`${avatarType} Avatar Idle`} 
           style={{ 
             width: '100%', 
             height: '100%', 
@@ -46,7 +46,7 @@ export default function Avatar({ syncData }) {
 
         {/* Talking Video */}
         <video 
-          src="/talking.mp4" 
+          src={`/${avatarType}_talking.mp4`} 
           autoPlay 
           loop 
           muted 

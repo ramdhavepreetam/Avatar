@@ -5,6 +5,7 @@ import './index.css'
 function App() {
   const [text, setText] = useState('')
   const [voice, setVoice] = useState('en-US-ChristopherNeural')
+  const [avatarType, setAvatarType] = useState('male')
   const [isLoading, setIsLoading] = useState(false)
   const [syncData, setSyncData] = useState(null)
   
@@ -43,22 +44,33 @@ function App() {
 
       <main className="main-content">
         <div className="avatar-section">
-          <Avatar syncData={syncData} />
+          <Avatar syncData={syncData} avatarType={avatarType} />
         </div>
         
         <div className="input-section">
           <form onSubmit={handleSubmit} className="question-form">
-            <select 
-              value={voice} 
-              onChange={(e) => setVoice(e.target.value)}
-              disabled={isLoading}
-              style={{ marginBottom: '10px', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-            >
-              <option value="en-US-ChristopherNeural">Male (Christopher)</option>
-              <option value="en-US-GuyNeural">Male (Guy)</option>
-              <option value="en-US-AriaNeural">Female (Aria)</option>
-              <option value="en-US-JennyNeural">Female (Jenny)</option>
-            </select>
+            <div className="selectors" style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+              <select 
+                value={avatarType} 
+                onChange={(e) => setAvatarType(e.target.value)}
+                disabled={isLoading}
+                style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+              >
+                <option value="male">Male Avatar</option>
+                <option value="female">Female Avatar</option>
+              </select>
+              <select 
+                value={voice} 
+                onChange={(e) => setVoice(e.target.value)}
+                disabled={isLoading}
+                style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+              >
+                <option value="en-US-ChristopherNeural">Male (Christopher)</option>
+                <option value="en-US-GuyNeural">Male (Guy)</option>
+                <option value="en-US-AriaNeural">Female (Aria)</option>
+                <option value="en-US-JennyNeural">Female (Jenny)</option>
+              </select>
+            </div>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
